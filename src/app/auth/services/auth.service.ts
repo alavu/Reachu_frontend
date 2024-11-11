@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { UserStorageService } from './user-stoarge.service';
 import { StatusResponse } from 'src/app/model/status-response.model';
+import {environment} from "../../environment";
 
-const BASIC_URL = 'http://localhost:8080/';
+const BASIC_URL = environment.apiBaseUrl;
 export const AUTH_HEADER = 'authorization';
 
 @Injectable({
@@ -18,12 +19,12 @@ export class AuthService {
     }
 
     registerClient(signupRequestDTO: any): Observable<any> {
-        return this.http.post(BASIC_URL + "client/sign-up", signupRequestDTO);
+        return this.http.post(BASIC_URL + "/client/sign-up", signupRequestDTO);
     }
 
     registerPartner(signupRequestDTO: any): Observable<any> {
         console.log('signup Dto', signupRequestDTO)
-        return this.http.post(BASIC_URL + "partner/sign-up", signupRequestDTO);
+        return this.http.post(BASIC_URL + "/partner/sign-up", signupRequestDTO);
     }
 
     login(username: string, password: string) {
@@ -40,7 +41,7 @@ export class AuthService {
         //         })
         //     );
 
-        return this.http.post(BASIC_URL + "authenticate", { username, password }, { observe: 'response' })
+        return this.http.post(BASIC_URL + "/authenticate", { username, password }, { observe: 'response' })
             .pipe(
                 map((res: HttpResponse<any>) => {
                     const user = res.body;
@@ -58,7 +59,7 @@ export class AuthService {
     isUserlogin(loginRequest: any): Observable<any> {
 
         console.log("Login req:", loginRequest);
-        return this.http.post(`${BASIC_URL}authenticate`, loginRequest).pipe(
+        return this.http.post(`${BASIC_URL}/authenticate`, loginRequest).pipe(
             tap((response: any) => {
                 if (response.blocked) {
                     // If the partner is blocked, show an appropriate message and do not proceed
@@ -78,7 +79,7 @@ export class AuthService {
 
     adminLogin(loginRequest: any): Observable<any> {
         console.log("Login req:", loginRequest);
-        return this.http.post(`${BASIC_URL}authenticate`, loginRequest).pipe(
+        return this.http.post(`${BASIC_URL}/authenticate`, loginRequest).pipe(
             tap((response: any) => {
                 if (response.token) {
                     UserStorageService.saveToken(response.token);
@@ -95,7 +96,7 @@ export class AuthService {
     isPartnerlogin(loginRequest: any): Observable<any> {
 
         console.log("Login req:", loginRequest);
-        return this.http.post(`${BASIC_URL}authenticate`, loginRequest).pipe(
+        return this.http.post(`${BASIC_URL}/authenticate`, loginRequest).pipe(
             tap((response: any) => {
                 console.log("Log in response", response)
                 if (response.blocked) {
@@ -127,13 +128,13 @@ export class AuthService {
 
     verifyAccount(token: string): Observable<any> {
         localStorage.removeItem('userEmail');
-        const url = `${BASIC_URL}activate-account?token=${token}`;
+        const url = `${BASIC_URL}/activate-account?token=${token}`;
         console.log("The url is:" + url);
         return this.http.get(url);
     }
 
     resendActivationCode(email: string): Observable<any> {
-        const url = `${BASIC_URL}resend-activation-code?email=${email}`;
+        const url = `${BASIC_URL}/resend-activation-code?email=${email}`;
         console.log("The url is:" + url);
         return this.http.get(url);
     }
@@ -141,19 +142,19 @@ export class AuthService {
 
     googleLogin(data: any): Observable<any> {
         console.log(data, "passing data...");
-        return this.http.post(`${BASIC_URL}api/auth/google-login`, data);
+        return this.http.post(`${BASIC_URL}/api/auth/google-login`, data);
     }
 
     checkGoogleLogin(): Observable<StatusResponse> {
-        return this.http.get<StatusResponse>(`${BASIC_URL}api/auth/check-google-login`);
+        return this.http.get<StatusResponse>(`${BASIC_URL}/api/auth/check-google-login`);
     }
 
     signOut() {
-        return this.http.get(`${BASIC_URL}logout`);
+        return this.http.get(`${BASIC_URL}/logout`);
     }
 
     logout() {
-        this.http.get(`${BASIC_URL}logout`).subscribe(() => {
+        this.http.get(`${BASIC_URL}/logout`).subscribe(() => {
             UserStorageService.clearUser();
             UserStorageService.clearToken();
             this.router.navigate(['home']); // Ensure `navigate` is properly used
@@ -177,7 +178,7 @@ export class AuthService {
     sendRoomIdToEmail(roomId: string, email: string): Observable<any> {
         const emailData = { roomId, email };
         console.log("sendToommto temil passsing...",roomId,email)
-        return this.http.post<any>(`${BASIC_URL}common/sentRoomidToEmail`, emailData);
+        return this.http.post<any>(`${BASIC_URL}/common/sentRoomidToEmail`, emailData);
     }
 }
 export interface AuthResponse {
