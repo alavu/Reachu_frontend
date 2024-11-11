@@ -21,6 +21,9 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import { BookedCustomerComponent } from './booked-customer/booked-customer.component';
 import { PartnerSalesRevenueComponent } from './chart/partner-sales-revenue/partner-sales-revenue.component';
 import {NgChartsModule} from "ng2-charts";
+import {NzSelectModule} from "ng-zorro-antd/select";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzSpinModule} from "ng-zorro-antd/spin";
 
 
 @NgModule({
@@ -49,6 +52,9 @@ import {NgChartsModule} from "ng2-charts";
         NzIconModule,
         NzTableModule,
         NgChartsModule,
+        NzSelectModule,
+        NzDatePickerModule,
+        NzSpinModule
     ]
 })
 export class PartnersModule { }

@@ -1,28 +1,58 @@
-<div class="bg-white p-6 rounded-lg shadow-lg">
-    <div class="flex justify-between items-center mb-4">
-        <div>
-            <h2 class="text-lg font-semibold">Total Sales Revenue</h2>
-            <p class="text-gray-400 text-sm">Lorem ipsum dolor sit amet, consectetur</p>
+<div class="container mx-auto p-6">
+    <!-- Header Section -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-bold text-gray-800">Sales Revenue</h2>
+            <div class="flex gap-4">
+                <nz-select
+                    [(ngModel)]="selectedRange"
+                    (ngModelChange)="onRangeChange($event)"
+                    class="w-32">
+                    <nz-option nzValue="weekly" nzLabel="Weekly"></nz-option>
+                    <nz-option nzValue="monthly" nzLabel="Monthly"></nz-option>
+                    <nz-option nzValue="yearly" nzLabel="Yearly"></nz-option>
+                    <nz-option nzValue="custom" nzLabel="Custom"></nz-option>
+                </nz-select>
+
+                <nz-range-picker
+                    *ngIf="selectedRange === 'custom'"
+                    [(ngModel)]="dateRange"
+                    (ngModelChange)="onDateRangeChange($event)"
+                    [nzAllowClear]="false"
+                    class="w-64">
+                </nz-range-picker>
+            </div>
         </div>
-        <div>
-            <button class="bg-gray-100 p-2 rounded-lg">Monthly</button>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div class="bg-blue-50 rounded-lg p-4">
+                <h3 class="text-sm text-blue-600 font-medium">Total Revenue</h3>
+                <p class="text-2xl font-bold">{{ totalRevenue | currency:'INR':'symbol' }}</p>
+            </div>
+            <div class="bg-green-50 rounded-lg p-4">
+                <h3 class="text-sm text-green-600 font-medium">Average Revenue</h3>
+                <p class="text-2xl font-bold">{{ averageRevenue | currency:'INR':'symbol' }}</p>
+            </div>
+            <div class="bg-purple-50 rounded-lg p-4">
+                <h3 class="text-sm text-purple-600 font-medium">Period</h3>
+                <p class="text-2xl font-bold capitalize">{{ selectedRange }}</p>
+            </div>
+        </div>
+
+
+    <!-- Chart Section -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="h-[400px]" *ngIf="!isLoading">
+            <canvas baseChart
+                    [data]="chartData"
+                    [options]="chartOptions"
+                    [type]="chartType">
+            </canvas>
+        </div>
+        <div *ngIf="isLoading" class="flex justify-center items-center h-[400px]">
+            <nz-spin nzSize="large"></nz-spin>
         </div>
     </div>
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <p class="text-2xl font-bold">{{ totalRevenue}}</p>
-            <p class="text-gray-400 text-sm">Earning this month</p>
-        </div>
-        <div>
-            <p class="text-2xl font-bold">{{totalRevenue}}</p>
-            <p class="text-gray-400 text-sm">Total Earning</p>
-        </div>
-    </div>
-    <div class="h-64">
-        <canvas baseChart
-                [data]="chartData"
-                [options]="chartOptions"
-                [type]="chartType">
-        </canvas>
-    </div>
+</div>
 </div>

@@ -1,28 +1,68 @@
+<!--<div class="bg-white p-6 rounded-lg shadow-lg">-->
+<!--    <div class="flex justify-between items-center mb-4">-->
+<!--        <div>-->
+<!--            <h2 class="text-lg font-semibold">Total Sales Revenue</h2>-->
+<!--            <p class="text-gray-400 text-sm">Filter by Date Range</p>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--&lt;!&ndash;            <button class="bg-gray-100 p-2 rounded-lg">Monthly</button>&ndash;&gt;-->
+<!--            <button (click)="setFilter('weekly')" class="bg-gray-100 p-2 rounded-lg">Weekly</button>-->
+<!--            <button (click)="setFilter('monthly')" class="bg-gray-100 p-2 rounded-lg">Monthly</button>-->
+<!--            <button (click)="setFilter('yearly')" class="bg-gray-100 p-2 rounded-lg">Yearly</button>-->
+<!--            <button (click)="setFilter('custom')" class="bg-gray-100 p-2 rounded-lg">Custom</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="flex justify-between items-center mb-6">-->
+<!--        <div>-->
+<!--            <p class="text-2xl font-bold">{{ totalRevenue}}</p>-->
+<!--            <p class="text-gray-400 text-sm">Earning this month</p>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <p class="text-2xl font-bold">{{totalRevenue}}</p>-->
+<!--            <p class="text-gray-400 text-sm">Total Earning</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="h-64">-->
+<!--        <canvas baseChart-->
+<!--                [data]="chartData"-->
+<!--                [options]="chartOptions"-->
+<!--                [type]="chartType">-->
+<!--        </canvas>-->
+<!--    </div>-->
+<!--</div>-->
+
+
 <div class="bg-white p-6 rounded-lg shadow-lg">
-    <div class="flex justify-between items-center mb-4">
-        <div>
-            <h2 class="text-lg font-semibold">Total Sales Revenue</h2>
-            <p class="text-gray-400 text-sm">Lorem ipsum dolor sit amet, consectetur</p>
-        </div>
-        <div>
-            <button class="bg-gray-100 p-2 rounded-lg">Monthly</button>
-        </div>
-    </div>
     <div class="flex justify-between items-center mb-6">
-        <div>
-            <p class="text-2xl font-bold">{{ totalRevenue}}</p>
-            <p class="text-gray-400 text-sm">Earning this month</p>
-        </div>
-        <div>
-            <p class="text-2xl font-bold">{{totalRevenue}}</p>
-            <p class="text-gray-400 text-sm">Total Earning</p>
+        <h2 class="text-xl font-semibold">Sales Revenue</h2>
+
+        <div class="flex gap-4">
+            <!-- Range Selector -->
+            <nz-select
+                [(ngModel)]="selectedRange"
+                (ngModelChange)="onRangeChange($event)"
+                class="w-32">
+                <nz-option nzValue="weekly" nzLabel="Weekly"></nz-option>
+                <nz-option nzValue="monthly" nzLabel="Monthly"></nz-option>
+                <nz-option nzValue="yearly" nzLabel="Yearly"></nz-option>
+                <nz-option nzValue="custom" nzLabel="Custom"></nz-option>
+            </nz-select>
+
+            <!-- Date Range Picker -->
+            <nz-range-picker
+                *ngIf="selectedRange === 'custom'"
+                [(ngModel)]="dateRange"
+                (ngModelChange)="onDateRangeChange($event)"
+                [nzAllowClear]="false">
+            </nz-range-picker>
         </div>
     </div>
-    <div class="h-64">
-        <canvas baseChart
-                [data]="chartData"
-                [options]="chartOptions"
-                [type]="chartType">
-        </canvas>
-    </div>
+
+    <!-- Loading Spinner -->
+<!--    <nz-spin [nzSpinning]="loading">-->
+        <!-- Chart Container -->
+        <div class="w-full" style="height: 400px;">
+            <canvas id="revenueChart"></canvas>
+        </div>
+<!--    </nz-spin>-->
 </div>

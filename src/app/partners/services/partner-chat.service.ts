@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {ConnectedPartners} from "../../model/ConnectedPartners";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environment";
 
-const BASIC_URL = "http://localhost:8080/";
+const BASIC_URL = environment.apiBaseUrl;
 
 
 @Injectable({
@@ -15,6 +16,6 @@ export class PartnerChatService {
 
     getConnectedUsers(partnerId: number): Observable<ConnectedPartners[]> {
         console.log("Connected users detail:",)
-        return this.http.get<any>(`${BASIC_URL}api/connections/users/${partnerId}`);
+        return this.http.get<any>(`${BASIC_URL}/api/connections/users/${partnerId}`);
     }
 }

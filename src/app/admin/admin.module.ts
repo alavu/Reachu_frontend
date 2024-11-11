@@ -34,6 +34,9 @@ import { HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angul
 import { PartnerManagementComponent } from './pages/partner-management/partner-management.component';
 import {NgChartsModule} from "ng2-charts";
 import {SalesRevenueChartComponent} from "./pages/chart/sales-revenue-chart/sales-revenue-chart.component";
+import {NzSelectModule} from "ng-zorro-antd/select";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzSpinModule} from "ng-zorro-antd/spin";
 
 @NgModule({
     declarations: [
@@ -69,6 +72,9 @@ import {SalesRevenueChartComponent} from "./pages/chart/sales-revenue-chart/sale
         MatInputModule,
         MatButtonModule,
         NzTableModule,
+        NzSelectModule,
+        NzDatePickerModule,
+        NzSpinModule,
         FontAwesomeModule,
         MatFormFieldModule,
         MaterialModule,
