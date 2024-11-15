@@ -333,6 +333,164 @@
         // }
 
 
+    // import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+    // import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
+    // import { AdminService } from "../../../services/admin.service";
+    //
+    // Chart.register(...registerables);
+    //
+    // @Component({
+    //     selector: 'sales-revenue-chart',
+    //     templateUrl: './sales-revenue-chart.component.html',
+    //     styleUrls: ['./sales-revenue-chart.component.scss']
+    // })
+    // export class SalesRevenueChartComponent implements AfterViewInit {
+    //     selectedRange = 'weekly';
+    //     dateRange: Date[] = [];
+    //     chart: Chart | undefined;
+    //     loading = false;
+    //
+    //     // Chart data and options
+    //     chartData: ChartData<'line', number[], string> = {
+    //         labels: [],
+    //         datasets: [{
+    //             label: 'Revenue',
+    //             data: [],
+    //             borderColor: '#1890ff',
+    //             tension: 0.1,
+    //             fill: false
+    //         }]
+    //     };
+    //
+    //     chartOptions: ChartOptions<'line'> = {
+    //         responsive: true,
+    //         maintainAspectRatio: false,
+    //         plugins: {
+    //             legend: { position: 'top' },
+    //             title: { display: true, text: 'Revenue Over Time' }
+    //         },
+    //         scales: {
+    //             y: {
+    //                 beginAtZero: true,
+    //                 ticks: {
+    //                     callback: (value) => '$' + value
+    //                 }
+    //             }
+    //         }
+    //     };
+    //
+    //     constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {}
+    //
+    //     ngAfterViewInit() {
+    //         this.loadSalesRevenueData('weekly');
+    //     }
+    //
+    //     initChart() {
+    //         const canvas = document.getElementById('revenueChart') as HTMLCanvasElement;
+    //         if (canvas && canvas.getContext('2d')) {
+    //             this.chart = new Chart(canvas.getContext('2d')!, {
+    //                 type: 'line',
+    //                 data: this.chartData,
+    //                 options: this.chartOptions
+    //             });
+    //         }
+    //     }
+    //
+    //     loadSalesRevenueData(range: string) {
+    //         this.loading = true;
+    //         let fetchDataObservable;
+    //
+    //         switch (range) {
+    //             case 'weekly':
+    //                 fetchDataObservable = this.adminService.getWeeklyRevenue();
+    //                 break;
+    //             case 'monthly':
+    //                 fetchDataObservable = this.adminService.getMonthlyRevenue();
+    //                 break;
+    //             case 'yearly':
+    //                 fetchDataObservable = this.adminService.getYearlyRevenue();
+    //                 break;
+    //             case 'custom':
+    //                 fetchDataObservable = this.adminService.getCustomRangeRevenue(this.dateRange[0], this.dateRange[1]);
+    //                 break;
+    //             default:
+    //                 this.loading = false;
+    //                 return;
+    //         }
+    //
+    //         fetchDataObservable.subscribe(response => {
+    //             const { labels, data } = this.processApiResponse(response);
+    //             console.log("Labels:",labels, data);
+    //             this.chartData.labels = labels;
+    //             this.chartData.datasets[0].data = data;
+    //
+    //             // Initialize chart after data is ready
+    //             if (!this.chart) {
+    //                 this.initChart();
+    //             } else {
+    //                 this.chart.update();
+    //             }
+    //
+    //             this.loading = false;
+    //         }, error => {
+    //             console.error('Error fetching sales revenue data:', error);
+    //             this.loading = false;
+    //         });
+    //     }
+    //
+    //     processApiResponse(response: any): { labels: string[], data: number[] } {
+    //         console.log("Response:", response);
+    //
+    //         const labels = response.labels || [];
+    //         const data = response.data || [];
+    //
+    //         // Check if the data is a single value (weekly revenue)
+    //         if (typeof data === 'number') {
+    //             // If it is, create an array with that single value to match the labels length
+    //             return { labels: [labels], data: [data] };
+    //         }
+    //
+    //         // Ensure the data length matches the labels length and fill with 0 where necessary
+    //         const finalData = new Array(labels.length).fill(0);  // Initialize all data with 0
+    //
+    //         // Populate the finalData array with actual values
+    //         for (let i = 0; i < labels.length; i++) {
+    //             if (data[i] !== undefined) {
+    //                 finalData[i] = data[i];
+    //             }
+    //         }
+    //
+    //         return { labels, data: finalData };
+    //     }
+    //
+    //
+    //
+    //     onRangeChange(range: string) {
+    //         this.selectedRange = range;
+    //         if (range !== 'custom') {
+    //             this.loadSalesRevenueData(range);
+    //         }
+    //     }
+    //
+    //     onDateRangeChange(dates: Date[]) {
+    //         if (dates && dates.length === 2) {
+    //             this.loading = true;
+    //             const [startDate, endDate] = dates;
+    //             this.adminService.getCustomRangeRevenue(startDate, endDate).subscribe(response => {
+    //                 const { labels, data } = this.processApiResponse(response);
+    //                 this.chartData.labels = labels;
+    //                 this.chartData.datasets[0].data = data;
+    //                 this.chart?.update();
+    //                 this.loading = false;
+    //             }, error => {
+    //                 console.error('Error fetching custom range revenue data:', error);
+    //                 this.loading = false;
+    //             });
+    //         }
+    //     }
+    // }
+    //
+
     import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
     import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
     import { AdminService } from "../../../services/admin.service";
@@ -357,8 +515,9 @@
                 label: 'Revenue',
                 data: [],
                 borderColor: '#1890ff',
+                backgroundColor: 'rgba(24, 144, 255, 0.1)',
                 tension: 0.1,
-                fill: false
+                fill: true
             }]
         };
 
@@ -367,13 +526,23 @@
             maintainAspectRatio: false,
             plugins: {
                 legend: { position: 'top' },
-                title: { display: true, text: 'Revenue Over Time' }
+                title: { display: true, text: 'Revenue Over Time' },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `Revenue: $${context.parsed.y.toFixed(2)}`
+                    }
+                }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        callback: (value) => '$' + value
+                        callback: (value) => `$${value}`
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
                     }
                 }
             }
@@ -386,6 +555,10 @@
         }
 
         initChart() {
+            if (this.chart) {
+                this.chart.destroy();
+            }
+
             const canvas = document.getElementById('revenueChart') as HTMLCanvasElement;
             if (canvas && canvas.getContext('2d')) {
                 this.chart = new Chart(canvas.getContext('2d')!, {
@@ -410,57 +583,63 @@
                 case 'yearly':
                     fetchDataObservable = this.adminService.getYearlyRevenue();
                     break;
+                case 'custom':
+                    if (this.dateRange.length === 2) {
+                        fetchDataObservable = this.adminService.getCustomRangeRevenue(this.dateRange[0], this.dateRange[1]);
+                    } else {
+                        this.loading = false;
+                        return;
+                    }
+                    break;
                 default:
                     this.loading = false;
                     return;
             }
 
-            fetchDataObservable.subscribe(response => {
-                const { labels, data } = this.processApiResponse(response);
-                console.log("Labels:",labels, data);
-                this.chartData.labels = labels;
-                this.chartData.datasets[0].data = data;
-
-                // Initialize chart after data is ready
-                if (!this.chart) {
-                    this.initChart();
-                } else {
-                    this.chart.update();
+            fetchDataObservable.subscribe({
+                next: (response) => {
+                    const { labels, data } = this.processApiResponse(response);
+                    this.updateChartData(labels, data);
+                    this.loading = false;
+                    this.cdr.detectChanges();
+                },
+                error: (error) => {
+                    console.error('Error fetching sales revenue data:', error);
+                    this.loading = false;
+                    this.cdr.detectChanges();
                 }
-
-                this.loading = false;
-            }, error => {
-                console.error('Error fetching sales revenue data:', error);
-                this.loading = false;
             });
         }
 
         processApiResponse(response: any): { labels: string[], data: number[] } {
-            console.log("Response:", response);
+            if (!response || (!response.labels && !response.data)) {
+                return { labels: [], data: [] };
+            }
 
             const labels = response.labels || [];
-            const data = response.data || [];
+            const data = Array.isArray(response.data) ? response.data : [];
 
-            // Check if the data is a single value (weekly revenue)
-            if (typeof data === 'number') {
-                // If it is, create an array with that single value to match the labels length
-                return { labels: [labels], data: [data] };
-            }
-
-            // Ensure the data length matches the labels length and fill with 0 where necessary
-            const finalData = new Array(labels.length).fill(0);  // Initialize all data with 0
-
-            // Populate the finalData array with actual values
-            for (let i = 0; i < labels.length; i++) {
-                if (data[i] !== undefined) {
-                    finalData[i] = data[i];
+            // Ensure data array matches labels length
+            const finalData = new Array(labels.length).fill(0);
+            data.forEach((value: number, index: number) => {
+                if (index < finalData.length) {
+                    finalData[index] = value;
                 }
-            }
+            });
 
             return { labels, data: finalData };
         }
 
+        updateChartData(labels: string[], data: number[]) {
+            this.chartData.labels = labels;
+            this.chartData.datasets[0].data = data;
 
+            if (!this.chart) {
+                this.initChart();
+            } else {
+                this.chart.update();
+            }
+        }
 
         onRangeChange(range: string) {
             this.selectedRange = range;
@@ -470,19 +649,10 @@
         }
 
         onDateRangeChange(dates: Date[]) {
+            this.dateRange = dates;
             if (dates && dates.length === 2) {
-                this.loading = true;
-                const [startDate, endDate] = dates;
-                this.adminService.getCustomRangeRevenue(startDate, endDate).subscribe(response => {
-                    const { labels, data } = this.processApiResponse(response);
-                    this.chartData.labels = labels;
-                    this.chartData.datasets[0].data = data;
-                    this.chart?.update();
-                    this.loading = false;
-                }, error => {
-                    console.error('Error fetching custom range revenue data:', error);
-                    this.loading = false;
-                });
+                this.selectedRange = 'custom';
+                this.loadSalesRevenueData('custom');
             }
         }
     }

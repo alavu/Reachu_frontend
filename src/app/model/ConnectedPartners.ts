@@ -3,4 +3,5 @@ export interface ConnectedPartners {
     name: string;
     service: string;
     img: string;
-}
+    status: string;
+    unreadCount?: number; }

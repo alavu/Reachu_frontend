@@ -100,8 +100,16 @@ export class AdminService {
     }
 
     getCustomRangeRevenue(startDate: Date, endDate: Date): Observable<any> {
-        return this.http.get(`/api/admin/dashboard/custom-range-revenue"=${startDate.toISOString()}&end=${endDate.toISOString()}`);
+        const start = startDate.toISOString().split('T')[0];
+        const end = endDate.toISOString().split('T')[0];
+        return this.http.get(`${BASIC_URL}/api/admin/dashboard/custom-range-revenue`, {
+            params: new HttpParams()
+                .set('startDate', start)
+                .set('endDate', end)
+        });
     }
+
+
 
 }
 

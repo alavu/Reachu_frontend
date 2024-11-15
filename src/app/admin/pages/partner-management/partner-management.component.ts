@@ -30,12 +30,12 @@ export class PartnerManagementComponent implements OnInit {
       console.log("Partner data", data)
       this.partners = data;
       this.paginatePartners();
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     });
   }
 
   filterPartners() {
-    const filtered = this.partners.filter(partner => 
+    const filtered = this.partners.filter(partner =>
       partner.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       partner.email.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
@@ -68,14 +68,6 @@ export class PartnerManagementComponent implements OnInit {
     });
   }
 
-  // Reject a partner
-// rejectPartner(userId: string) {
-//   this.partnerService.rejectPartner(userId).subscribe(() => {
-//       this.loadPartners();  // Reload the list after rejection
-//       this.snackBar.open('Partner rejected', 'Close', { duration: 3000 });
-//   });
-// }
-
   // Show rejection modal and save the partner ID
   openRejectionModal(partnerId: string) {
     console.log('Opening modal for partner:', partnerId); // Debugging
@@ -83,14 +75,14 @@ export class PartnerManagementComponent implements OnInit {
     this.rejectionReason = ''; // Reset the rejection reason
     this.showRejectionModal = true;
   }
-  
+
 
     // Close the rejection modal
     cancelRejection() {
       this.showRejectionModal = false;
       this.selectedPartnerId = null;
     }
-    
+
     confirmRejection(partnerId: string) {
       if (this.rejectionReason.trim()) {
         this.partnerService.rejectPartner(partnerId, this.rejectionReason).subscribe(() => {

@@ -34,6 +34,7 @@ import { CategoryDetailComponent } from './client/pages/category-detail/category
 import { AdminInterceptor } from './admin/services/admin-interceptor.service';
 import { CancelComponent } from './stripe/cancel/cancel.component';
 import { SucessComponent } from './stripe/sucess/sucess.component';
+import {MatBadgeModule} from "@angular/material/badge";
 registerLocaleData(en);
 
 @NgModule({
@@ -73,6 +74,7 @@ registerLocaleData(en);
         HttpClientModule,
         MaterialModule,
         MatButtonToggleModule,
+        MatBadgeModule,
         NzAutocompleteModule,
 
     ],

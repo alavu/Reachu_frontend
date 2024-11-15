@@ -24,6 +24,7 @@ import {NgChartsModule} from "ng2-charts";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzSpinModule} from "ng-zorro-antd/spin";
+import {MatBadgeModule} from "@angular/material/badge";
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import {NzSpinModule} from "ng-zorro-antd/spin";
         NgChartsModule,
         NzSelectModule,
         NzDatePickerModule,
-        NzSpinModule
+        NzSpinModule,
+        MatBadgeModule
     ]
 })
 export class PartnersModule { }

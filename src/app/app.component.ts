@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { UserStorageService } from './auth/services/user-stoarge.service';
+import {NotificationService} from "./client/services/NotificationService";
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,12 @@ export class AppComponent implements OnInit{
   isPartnerLoggedIn: boolean = UserStorageService.isPartnerLoggedIn();
   // isGoogleLogin: boolean = UserStorageService.isGoogleLogin();
 
-  constructor(private router: Router){}
+  constructor(private router: Router,
+              private  notificationService: NotificationService){}
 
   ngOnInit(){
     this.router.events.subscribe(event =>{
+        this.notificationService.requestPermission();
       this.isClientLoggedIn = UserStorageService.isUserLoggedIn();
       this.isCompanyLoggedIn = UserStorageService.isAdminLoggedIn();
       this.isPartnerLoggedIn = UserStorageService.isPartnerLoggedIn();

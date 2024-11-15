@@ -2,6 +2,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import {MatDialogRef} from "@angular/material/dialog";
+import {AuthService} from "../../../auth/services/auth.service";
 
 // get token
 function generateToken(tokenServerUrl: string, userID: string) {
@@ -41,7 +42,9 @@ export function getUrlParams(
 export class ClientVideocallComponent {
     // @ViewChild('root')  root: ElementRef;
     @ViewChild('root', { static: false }) root: ElementRef;
-    constructor(private dialogRef: MatDialogRef<ClientVideocallComponent>) {}  // Inject MatDialogRef
+    constructor(private dialogRef: MatDialogRef<ClientVideocallComponent>,
+                private authService: AuthService
+    ) {}
 
     ngAfterViewInit() {
         const roomID = getUrlParams().get('roomID') || randomID(5);
@@ -77,7 +80,7 @@ export class ClientVideocallComponent {
                 '&role=Audience',
         });
 
-        // generate token
+        // generate token with authentication
         generateToken('https://nextjs-token.vercel.app/api', userID).then((res) => {
             const token = ZegoUIKitPrebuilt.generateKitTokenForProduction(
                 1484647939,
@@ -104,6 +107,9 @@ export class ClientVideocallComponent {
                 },
                 sharedLinks,
             });
+        }).catch(error => {
+            console.error('Error generating token:', error);
+            this.closeDialog(); // Optionally close the dialog on error
         });
     }
 

@@ -1,0 +1,4 @@
+/* Custom styles for the notifications dropdown */
+.notifications-dropdown {
+    @apply absolute top-20 right-20 bg-white shadow-lg rounded-lg w-80 z-50;
+}

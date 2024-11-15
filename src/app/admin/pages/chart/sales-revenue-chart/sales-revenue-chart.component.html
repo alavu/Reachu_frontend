@@ -40,7 +40,7 @@
             <!-- Range Selector -->
             <nz-select
                 [(ngModel)]="selectedRange"
-                (ngModelChange)="onRangeChange($event)"
+                    (ngModelChange)="onRangeChange($event)"
                 class="w-32">
                 <nz-option nzValue="weekly" nzLabel="Weekly"></nz-option>
                 <nz-option nzValue="monthly" nzLabel="Monthly"></nz-option>
@@ -61,8 +61,11 @@
     <!-- Loading Spinner -->
 <!--    <nz-spin [nzSpinning]="loading">-->
         <!-- Chart Container -->
-        <div class="w-full" style="height: 400px;">
-            <canvas id="revenueChart"></canvas>
+    <div class="chart-container" style="position: relative; height: 400px;">
+        <canvas id="revenueChart"></canvas>
+        <div *ngIf="loading" class="loading-overlay">
+            <span>Loading...</span>
         </div>
+    </div>
 <!--    </nz-spin>-->
 </div>
